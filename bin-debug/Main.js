@@ -110,29 +110,28 @@ var Main = (function (_super) {
         allPages.addChild(firstPage);
         allPages.addChild(SecondPage);
         SecondPage.y = stageH;
-        //allPages.scrollRect = new egret.Rectangle(0, 0, stageW, stageH * 2);
-        // var myallPages = new addPages(this.stage.stageWidth, this.stage.stageHeight);
-        //以下为第一页
+        //FirstPage
         var bg = new egret.Shape();
-        bg.graphics.beginFill(0x000000);
+        bg.graphics.beginFill(0x0000000);
         bg.graphics.drawRect(0, 0, stageW, stageH);
         bg.graphics.endFill();
         firstPage.addChild(bg);
-        var bgEffect = this.createBitmapByName("BgEffect_png");
-        firstPage.addChild(bgEffect);
-        bgEffect.x = stageW / 2;
-        bgEffect.y = stageH / 2;
-        bgEffect.anchorOffsetX += bgEffect.width / 2;
-        bgEffect.anchorOffsetY += bgEffect.height / 2;
-        bgEffect.alpha = 0;
+        var back = this.createBitmapByName("back_jpg");
+        firstPage.addChild(back);
+        back.x = stageW / 2;
+        back.y = stageH / 2;
+        back.anchorOffsetX += back.width / 2;
+        back.anchorOffsetY += back.height / 2;
+        back.alpha = 0;
         var bgText = new egret.TextField();
         firstPage.addChild(bgText);
-        bgText.text = "I'm here for building amazing games!";
+        bgText.text = "国庆这段时间在外地，刚回来，还没怎么看HelloWorld，这个是用别人的改的，之后会补习的......";
+        bgText.textColor = 0xffffff;
         bgText.size = 32;
-        bgText.width = stageW;
+        bgText.width = stageW - 100;
         bgText.textAlign = egret.HorizontalAlign.CENTER;
         bgText.x = stageW / 2 - bgText.width / 2;
-        bgText.y = stageH / 2 - bgText.height / 2 - 10;
+        bgText.y = 100;
         bgText.alpha = 0;
         var containerTextfield = new egret.DisplayObjectContainer();
         firstPage.addChild(containerTextfield);
@@ -148,83 +147,18 @@ var Main = (function (_super) {
         this.textfield = textfield;
         textfield.touchEnabled = true;
         textfield.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            egret.Tween.get(bgEffect).to({ alpha: 1 }, 200, egret.Ease.circIn);
+            egret.Tween.get(back).to({ alpha: 1 }, 200, egret.Ease.circIn);
             Main.doTextAnimation = false;
             egret.Tween.get(bgText).wait(200).to({ alpha: 1 }, 200, egret.Ease.circIn);
             egret.Tween.get(containerTextfield).to({ alpha: 0 }, 200);
-            //var deleteContainerTextfield: Function = function () {
-            //    this.removeChild(containerTextfield);
-            //}
-            var rotateBgEffect = function () {
-                var bgTw = egret.Tween.get(bgEffect);
-                bgTw.to({ rotation: 360 }, 100000);
-                bgTw.call(rotateBgEffect, 100000);
-            };
-            rotateBgEffect();
-            var setBgEffectAlpha = function () {
-                var bgTw = egret.Tween.get(bgEffect);
+            var setbackAlpha = function () {
+                var bgTw = egret.Tween.get(back);
                 bgTw.to({ alpha: 0 }, 1000).wait(500).to({ alpha: 1 }, 1000).wait(2000);
-                bgTw.call(setBgEffectAlpha, 4500);
+                bgTw.call(setbackAlpha, 4500);
             };
         }, this);
-        var containerCircle = new egret.DisplayObjectContainer();
-        var MusicIcon = this.createBitmapByName("Music_png");
-        containerCircle.addChild(MusicIcon);
-        MusicIcon.alpha = 1;
-        firstPage.addChild(containerCircle);
-        var Circle = this.createBitmapByName("Circle_png");
-        containerCircle.addChild(Circle);
-        var CircleInner = this.createBitmapByName("CircleInner_png");
-        containerCircle.addChild(CircleInner);
-        containerCircle.width = containerCircle.height = Circle.width;
-        Circle.x = Circle.y = stageW / 2;
-        Circle.anchorOffsetX = Circle.anchorOffsetY += Circle.width / 2;
-        CircleInner.x = CircleInner.y = stageW / 2;
-        CircleInner.anchorOffsetX = CircleInner.anchorOffsetY += CircleInner.width / 2;
-        MusicIcon.x = MusicIcon.y = stageW / 2;
-        MusicIcon.anchorOffsetX = MusicIcon.anchorOffsetY += MusicIcon.width / 2;
-        MusicIcon.scaleX = MusicIcon.scaleY = 0.8;
-        containerCircle.scaleX = containerCircle.scaleY = 0.2;
-        var rotateCircle = function () {
-            var circleInnerTw = egret.Tween.get(CircleInner);
-            circleInnerTw.to({ rotation: -360 }, 50000);
-            var circleTw = egret.Tween.get(Circle);
-            circleTw.to({ rotation: 360 }, 50000);
-            circleTw.call(rotateCircle, 50000);
-        };
-        rotateCircle();
-        var sound = RES.getRes("Florence + The Machine - Seven Devils_mp3");
-        var channal;
-        var musicIn = false;
-        containerCircle.touchEnabled = true;
-        containerCircle.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            if (musicIn) {
-                channal.stop();
-                channal = null;
-                musicIn = false;
-            }
-            else {
-                channal = sound.play(0, 0);
-                musicIn = true;
-            }
-        }, this);
-        if (musicIn) {
-            MusicIcon.alpha = 0;
-            console.log("yeah");
-        }
-        else if (!musicIn) {
-            MusicIcon.alpha = 1;
-            console.log("ohno");
-        }
-        //egret.Tween.get(MusicIcon).to({ alpha: 0 }, 200);
-        var moveContainerCircle = function () {
-            var containerCircleTW = egret.Tween.get(containerCircle);
-            containerCircleTW.to({ x: stageW / (Math.random() * 10 + 1), y: stageH / (Math.random() * 10 + 1) }, 10000 * Math.random() * 2 + 1);
-            containerCircleTW.call(moveContainerCircle, 1000 * Math.random());
-        };
-        moveContainerCircle();
-        //以下为第二页
-        var Secondbg = this.createBitmapByName("bg_jpg");
+        //SecondPage
+        var Secondbg = this.createBitmapByName("back2_jpg");
         SecondPage.addChild(Secondbg);
         var SecondTag = new egret.Shape();
         SecondTag.graphics.beginFill(0x000000);
@@ -232,33 +166,11 @@ var Main = (function (_super) {
         SecondTag.graphics.endFill();
         SecondTag.alpha = 0.5;
         SecondPage.addChild(SecondTag);
-        var secondText = new egret.TextField();
-        secondText.text = "此处应该有视频或者其他的一些新东西，然而遇到的问题太多了，10.7又有事没法去答疑，sorry";
-        SecondPage.addChild(secondText);
-        secondText.width = stageW * 0.8;
-        secondText.textAlign = egret.HorizontalAlign.CENTER;
-        secondText.size = 32;
-        secondText.textColor = 0xffffff;
-        secondText.x = stageW / 2 - secondText.width / 2;
-        secondText.y = stageH / 2 - secondText.height / 2 - 10;
-        /*
-              var myVideo = new egret.Video();
-              firstPage.addChild(myVideo);
-              myVideo.x = 0;                       //设置视频坐标x
-              myVideo.y = 0;                       //设置视频坐标y
-              myVideo.width = 640;                 //设置视频宽
-              myVideo.height = 320;                //设置视频高
-              myVideo.fullscreen = false;
-              myVideo.poster = "resource/assets/KingSSM.jpg";
-              myVideo.load("http://player.video.qiyi.com/08bf03b45d6bd666983b081710358dc1/0/295/w_19rr1lqtc1.swf-albumId=1170016109-tvId=1170016109-isPurchase=0-cnId=5");
-              myVideo.play();
-      */
         //以下是翻页
         //设定2个偏移量
         var offsetY;
         var setY;
         //手指按到屏幕，触发 startMove 方法
-        //this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, beginMove, this);
         this.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, startMove, this);
         //手指离开屏幕，触发 stopMove 方法
         this.stage.addEventListener(egret.TouchEvent.TOUCH_END, stopMove, this);
@@ -271,16 +183,10 @@ var Main = (function (_super) {
         function stopMove(e) {
             offsetY = setY - e.stageY;
             if (offsetY > stageH / 4) {
-                containerCircle.touchEnabled = false;
                 textfield.touchEnabled = false;
                 egret.Tween.get(SecondPage).to({ y: 0 }, 1000, egret.Ease.backOut);
-                if (channal == null) {
-                    channal = sound.play();
-                    musicIn = true;
-                }
             }
             else if (offsetY < -stageH / 4) {
-                containerCircle.touchEnabled = true;
                 textfield.touchEnabled = true;
                 egret.Tween.get(SecondPage).to({ y: stageH }, 1000, egret.Ease.backOut);
             }
@@ -322,7 +228,7 @@ var Main = (function (_super) {
             var tw = egret.Tween.get(textfield);
             if (Main.doTextAnimation) {
                 tw.to({ "alpha": 1 }, 200);
-                tw.wait(2000);
+                tw.wait(3000);
                 tw.to({ "alpha": 0 }, 200);
                 tw.call(change, self);
             }
@@ -364,92 +270,4 @@ var Main = (function (_super) {
     return Main;
 }(egret.DisplayObjectContainer));
 egret.registerClass(Main,'Main');
-/*自己写的全是问题-----------------------------------------------------------------------------------------------
-class addPages extends egret.DisplayObjectContainer {
-    public constructor() {
-        super();
-    }
-
-    public createBitmapByName(name: string): egret.Bitmap {
-        var result = new egret.Bitmap();
-        var texture: egret.Texture = RES.getRes(name);
-        result.texture = texture;
-        return result;
-    }
-}
-
-class addFirstPage extends egret.DisplayObjectContainer {
-    public constructor() {
-        super();
-        this.creatFirstPage();
-    }
-    public createBitmapByName(name: string): egret.Bitmap {
-        var result = new egret.Bitmap();
-        var texture: egret.Texture = RES.getRes(name);
-        result.texture = texture;
-        return result;
-    }
-    private creatFirstPage(): void {
-        var stageW: number = this.stage.stageWidth;
-        var stageH: number = this.stage.stageHeight;
-        var bg: egret.Shape = new egret.Shape();
-        bg.graphics.beginFill(0x000000);
-        bg.graphics.drawRect(0, 0, stageW, stageH);
-        bg.graphics.endFill();
-        this.addChild(bg);
-
-        var bgEffect: egret.Bitmap = this.createBitmapByName("BgEffect_png");
-        this.addChild(bgEffect);
-        bgEffect.x = stageW / 2;
-        bgEffect.y = stageH / 2;
-        bgEffect.anchorOffsetX += bgEffect.width / 2;
-        bgEffect.anchorOffsetY += bgEffect.height / 2;
-        bgEffect.alpha = 0;
-
-        var bgText = new egret.TextField();
-        this.addChild(bgText);
-        bgText.text = "I'm here for building amazing games!"
-        bgText.size = 32;
-        bgText.width = stageW;
-        bgText.textAlign = egret.HorizontalAlign.CENTER;
-        bgText.x = stageW / 2 - bgText.width / 2;
-        bgText.y = stageH / 2 - bgText.height / 2 - 10;
-        bgText.alpha = 0;
-
-        var containerTextfield = new egret.DisplayObjectContainer();
-        this.addChild(containerTextfield);
-
-        var textfield = new egret.TextField();
-        containerTextfield.addChild(textfield);
-        textfield.alpha = 0;
-        textfield.width = stageW;
-        textfield.textAlign = egret.HorizontalAlign.CENTER;
-        textfield.size = 32;
-        textfield.textColor = 0xffffff;
-        textfield.x = stageW / 2 - textfield.width / 2;
-        textfield.y = stageH / 2 - textfield.height / 2 - 10;
-        //this.textfield = textfield;
-
-        textfield.touchEnabled = true;
-        textfield.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            textfield.alpha = 0;
-            egret.Tween.get(bgEffect).to({ alpha: 1 }, 200, egret.Ease.circIn);
-            Main.doTextAnimation = false;
-            egret.Tween.get(bgText).wait(200).to({ alpha: 1 }, 200, egret.Ease.circIn);
-            egret.Tween.get(containerTextfield).to({ alpha: 0 }, 200);
-            var rotateBgEffect: Function = function () {
-                var bgTw = egret.Tween.get(bgEffect);
-                bgTw.to({ rotation: 360 }, 100000);
-                bgTw.call(rotateBgEffect, 100000);
-            };
-            rotateBgEffect();
-            var setBgEffectAlpha: Function = function () {
-                var bgTw = egret.Tween.get(bgEffect);
-                bgTw.to({ alpha: 0 }, 1000).wait(500).to({ alpha: 1 }, 1000).wait(2000);
-                bgTw.call(setBgEffectAlpha, 4500);
-            }
-        }, this)
-    }
-}
-*/
 //# sourceMappingURL=Main.js.map
