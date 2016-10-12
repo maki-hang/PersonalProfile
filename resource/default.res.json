@@ -1,0 +1,55 @@
+{
+	"groups": [
+		{
+			"keys": "bg_jpg,egret_icon_png,description_json,KingSSM_jpg,BgEffect_png,Circle_png,CircleInner_png,Florence + The Machine - Seven Devils_mp3,Music_png",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"name": "bg_jpg",
+			"type": "image",
+			"url": "assets/bg.jpg"
+		},
+		{
+			"name": "egret_icon_png",
+			"type": "image",
+			"url": "assets/egret_icon.png"
+		},
+		{
+			"name": "description_json",
+			"type": "json",
+			"url": "config/description.json"
+		},
+		{
+			"name": "KingSSM_jpg",
+			"type": "image",
+			"url": "assets/KingSSM.jpg"
+		},
+		{
+			"name": "BgEffect_png",
+			"type": "image",
+			"url": "assets/BgEffect.png"
+		},
+		{
+			"name": "Circle_png",
+			"type": "image",
+			"url": "assets/Circle.png"
+		},
+		{
+			"name": "CircleInner_png",
+			"type": "image",
+			"url": "assets/CircleInner.png"
+		},
+		{
+			"name": "Florence + The Machine - Seven Devils_mp3",
+			"type": "sound",
+			"url": "assets/Florence + The Machine - Seven Devils.mp3"
+		},
+		{
+			"name": "Music_png",
+			"type": "image",
+			"url": "assets/Music.png"
+		}
+	]
+}
